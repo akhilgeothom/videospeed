@@ -1,3 +1,9 @@
+Modified from https://github.com/codebicycle/videospeed. Netflix would often break and not work with rewind/advance of that repo.
+
+**Keep Binging!**
+
+-----------------------------
+
 # The science of accelerated playback
 
 **TL;DR: faster playback translates to better engagement and retention.**
@@ -20,8 +26,6 @@ Once the extension is installed simply navigate to any page that offers HTML5 vi
 * **S** - decrease playback speed.
 * **D** - increase playback speed.
 * **R** - reset playback speed.
-* **Z** - rewind video by 10 seconds.
-* **X** - advance video by 10 seconds.
 * **V** - show/hide the controller.
 
 Some sites may assign other functionality to same shortcut keys — these collisions are inevitable, unfortunately. As a workaround, we listen both for lower and upper case values (i.e. you can use `Shift-<shortcut>`) if there is other functionality assigned to the lowercase key. This is not a perfect solution, as some sites may listen to both, but works most of the time.

@@ -5,13 +5,9 @@ chrome.runtime.sendMessage({}, function(response) {
       resetSpeed: 1.0,      // default 1x
       speedStep: 0.1,       // default 0.1x
       fastSpeed: 1.8,       // default 1.8x
-      rewindTime: 10,       // default 10s
-      advanceTime: 10,      // default 10s
       resetKeyCode:  82,    // default: R
       slowerKeyCode: 83,    // default: S
       fasterKeyCode: 68,    // default: D
-      rewindKeyCode: 90,    // default: Z
-      advanceKeyCode: 88,   // default: X
       displayKeyCode: 86,   // default: V
       fastKeyCode: 71,      // default: G
       rememberSpeed: false, // default: false
@@ -30,15 +26,11 @@ chrome.runtime.sendMessage({}, function(response) {
     tc.settings.resetSpeed = Number(storage.resetSpeed);
     tc.settings.speedStep = Number(storage.speedStep);
     tc.settings.fastSpeed = Number(storage.fastSpeed);
-    tc.settings.rewindTime = Number(storage.rewindTime);
-    tc.settings.advanceTime = Number(storage.advanceTime);
     tc.settings.resetKeyCode = Number(storage.resetKeyCode);
-    tc.settings.rewindKeyCode = Number(storage.rewindKeyCode);
     tc.settings.slowerKeyCode = Number(storage.slowerKeyCode);
     tc.settings.fasterKeyCode = Number(storage.fasterKeyCode);
     tc.settings.fastKeyCode = Number(storage.fastKeyCode);
     tc.settings.displayKeyCode = Number(storage.displayKeyCode);
-    tc.settings.advanceKeyCode = Number(storage.advanceKeyCode);
     tc.settings.rememberSpeed = Boolean(storage.rememberSpeed);
     tc.settings.startHidden = Boolean(storage.startHidden);
     tc.settings.blacklist = String(storage.blacklist);
@@ -133,12 +125,6 @@ chrome.runtime.sendMessage({}, function(response) {
       var spanElem2 = document.createElement('span')
       spanElem2.setAttribute('id', 'controls')
 
-      var buttonElem1 = document.createElement('button')
-      buttonElem1.setAttribute('data-action', 'rewind')
-      buttonElem1.setAttribute('class', 'rw')
-      buttonElem1.appendChild(document.createTextNode('«'))
-      spanElem2.appendChild(buttonElem1)
-
       var buttonElem2 = document.createElement('button')
       buttonElem2.setAttribute('data-action', 'slower')
       buttonElem2.appendChild(document.createTextNode('-'))
@@ -148,12 +134,6 @@ chrome.runtime.sendMessage({}, function(response) {
       buttonElem3.setAttribute('data-action', 'faster')
       buttonElem3.appendChild(document.createTextNode('+'))
       spanElem2.appendChild(buttonElem3)
-
-      var buttonElem4 = document.createElement('button')
-      buttonElem4.setAttribute('data-action', 'advance')
-      buttonElem4.setAttribute('class', 'rw')
-      buttonElem4.appendChild(document.createTextNode('»'))
-      spanElem2.appendChild(buttonElem4)
 
       var buttonElem5 = document.createElement('button')
       buttonElem5.setAttribute('data-action', 'display')
@@ -278,11 +258,7 @@ chrome.runtime.sendMessage({}, function(response) {
           return false;
         }
 
-        if (keyCode == tc.settings.rewindKeyCode) {
-          runAction('rewind', document, true)
-        } else if (keyCode == tc.settings.advanceKeyCode) {
-          runAction('advance', document, true)
-        } else if (keyCode == tc.settings.fasterKeyCode) {
+        if (keyCode == tc.settings.fasterKeyCode) {
           runAction('faster', document, true)
         } else if (keyCode == tc.settings.slowerKeyCode) {
           runAction('slower', document, true)
@@ -368,11 +344,7 @@ chrome.runtime.sendMessage({}, function(response) {
       showController(controller);
 
       if (!v.classList.contains('vsc-cancelled')) {
-        if (action === 'rewind') {
-          v.currentTime -= tc.settings.rewindTime;
-        } else if (action === 'advance') {
-          v.currentTime += tc.settings.advanceTime;
-        } else if (action === 'faster') {
+        if (action === 'faster') {
           // Maximum playback speed in Chrome is set to 16:
           // https://cs.chromium.org/chromium/src/third_party/WebKit/Source/core/html/media/HTMLMediaElement.cpp?l=168
           var s = Math.min( (v.playbackRate < 0.1 ? 0.0 : v.playbackRate) + tc.settings.speedStep, 16);

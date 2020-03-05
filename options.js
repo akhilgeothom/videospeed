@@ -1,15 +1,11 @@
 var tcDefaults = {
   speed: 1.0,           // default 1x
   speedStep: 0.1,       // default 0.1x
-  rewindTime: 10,       // default 10s
-  advanceTime: 10,      // default 10s
   fastSpeed: 1.8,       // default 1.8x
   resetKeyCode:  82,    // default: R
   slowerKeyCode: 83,    // default: S
   fasterKeyCode: 68,    // default: D
   fastKeyCode: 71,      // default: G
-  rewindKeyCode: 90,    // default: Z
-  advanceKeyCode: 88,   // default: X
   displayKeyCode: 86,   // default: V
   rememberSpeed: false, // default: false
   startHidden: false,   // default: false
@@ -101,12 +97,8 @@ function updateShortcutInputText(inputId, keyCode) {
 function save_options() {
 
   var speedStep     = document.getElementById('speedStep').value;
-  var rewindTime    = document.getElementById('rewindTime').value;
-  var advanceTime   = document.getElementById('advanceTime').value;
   var fastSpeed     = document.getElementById('fastSpeed').value;
   var resetKeyCode  = document.getElementById('resetKeyInput').keyCode;
-  var rewindKeyCode = document.getElementById('rewindKeyInput').keyCode;
-  var advanceKeyCode = document.getElementById('advanceKeyInput').keyCode;
   var slowerKeyCode = document.getElementById('slowerKeyInput').keyCode;
   var fasterKeyCode = document.getElementById('fasterKeyInput').keyCode;
   var fastKeyCode   = document.getElementById('fastKeyInput').keyCode;
@@ -116,12 +108,8 @@ function save_options() {
   var blacklist     = document.getElementById('blacklist').value;
 
   speedStep     = isNaN(speedStep) ? tcDefaults.speedStep : Number(speedStep);
-  rewindTime    = isNaN(rewindTime) ? tcDefaults.rewindTime : Number(rewindTime);
-  advanceTime   = isNaN(advanceTime) ? tcDefaults.advanceTime : Number(advanceTime);
   fastSpeed     = isNaN(fastSpeed) ? tcDefaults.fastSpeed : Number(fastSpeed);
   resetKeyCode  = isNaN(resetKeyCode) ? tcDefaults.resetKeyCode : resetKeyCode;
-  rewindKeyCode = isNaN(rewindKeyCode) ? tcDefaults.rewindKeyCode : rewindKeyCode;
-  advanceKeyCode = isNaN(advanceKeyCode) ? tcDefaults.advanceKeyCode : advanceKeyCode;
   slowerKeyCode = isNaN(slowerKeyCode) ? tcDefaults.slowerKeyCode : slowerKeyCode;
   fasterKeyCode = isNaN(fasterKeyCode) ? tcDefaults.fasterKeyCode : fasterKeyCode;
   fastKeyCode   = isNaN(fastKeyCode) ? tcDefaults.fastKeyCode : fastKeyCode;
@@ -129,12 +117,8 @@ function save_options() {
 
   chrome.storage.local.set({
     speedStep:      speedStep,
-    rewindTime:     rewindTime,
-    advanceTime:    advanceTime,
     fastSpeed:      fastSpeed,
     resetKeyCode:   resetKeyCode,
-    rewindKeyCode:  rewindKeyCode,
-    advanceKeyCode: advanceKeyCode,
     slowerKeyCode:  slowerKeyCode,
     fasterKeyCode:  fasterKeyCode,
     fastKeyCode:    fastKeyCode,
@@ -156,12 +140,8 @@ function save_options() {
 function restore_options() {
   chrome.storage.local.get(tcDefaults, function(storage) {
     document.getElementById('speedStep').value = storage.speedStep.toFixed(2);
-    document.getElementById('rewindTime').value = storage.rewindTime;
-    document.getElementById('advanceTime').value = storage.advanceTime;
     document.getElementById('fastSpeed').value = storage.fastSpeed;
     updateShortcutInputText('resetKeyInput',  storage.resetKeyCode);
-    updateShortcutInputText('rewindKeyInput', storage.rewindKeyCode);
-    updateShortcutInputText('advanceKeyInput', storage.advanceKeyCode);
     updateShortcutInputText('slowerKeyInput', storage.slowerKeyCode);
     updateShortcutInputText('fasterKeyInput', storage.fasterKeyCode);
     updateShortcutInputText('fastKeyInput', storage.fastKeyCode);
@@ -197,15 +177,11 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('restore').addEventListener('click', restore_defaults);
 
   initShortcutInput('resetKeyInput');
-  initShortcutInput('rewindKeyInput');
-  initShortcutInput('advanceKeyInput');
   initShortcutInput('slowerKeyInput');
   initShortcutInput('fasterKeyInput');
   initShortcutInput('fastKeyInput');
   initShortcutInput('displayKeyInput');
 
-  document.getElementById('rewindTime').addEventListener('keypress', inputFilterNumbersOnly);
-  document.getElementById('advanceTime').addEventListener('keypress', inputFilterNumbersOnly);
   document.getElementById('speedStep').addEventListener('keypress', inputFilterNumbersOnly);
   document.getElementById('fastSpeed').addEventListener('keypress', inputFilterNumbersOnly);
 })
